@@ -6,7 +6,7 @@
 
       <v-toolbar-title class="headline text-uppercase mx-0 pa-0">
 
-        <span @click="showDev()">Speckle</span>
+        <span @click="showDev()">WELCOME TO DUI3</span>
 
         <span class="font-weight-light">{{$store.state.hostAppName}}</span>
 
@@ -31,7 +31,7 @@
 
       </v-btn>
 
-      <v-btn
+      <!-- <v-btn
         color="primary"
         v-show="$store.state.accounts.length > 0"
         absolute
@@ -60,7 +60,7 @@
 
         <v-icon>account_circle</v-icon>
 
-      </v-btn>
+      </v-btn> -->
 
     </v-app-bar>
 
@@ -110,75 +110,13 @@
 
               <v-card-text class="text-sm-center white--text">
 
-                <b>Howdy, stranger!</b>
-                 Seems you have no speckle accounts yet.
                 <v-btn block class="mt-2" @click.native="showAccountsPopup()">
-                  add an account
+                   Do something
                 </v-btn>
 
               </v-card-text>
 
             </v-card>
-
-          </v-flex>
-
-        </v-layout>
-
-        <v-layout row wrap>
-
-          <v-flex xs12 md6 pa-4 xxxv-if="receivers.length>0">
-
-            <span class="headline text-uppercase secondary--text">
-              Receivers
-            </span>
-
-            <v-divider class="my-4 secondary"></v-divider>
-
-            <span class v-if="receivers.length === 0">
-              There are no receiver clients in this file.
-            </span>
-
-            <v-container grid-list-xl>
-
-              <v-layout row wrap>
-
-                <client-receiver
-                  v-for="client in receivers"
-                  :key="client.streamId + ':' + client.AccountId"
-                  :client="client"
-                ></client-receiver>
-
-              </v-layout>
-
-            </v-container>
-
-          </v-flex>
-
-          <v-flex xs12 md6 pa-4>
-
-            <span class="headline text-uppercase primary--text">Senders</span>
-
-            <v-divider class="my-4 primary"></v-divider>
-
-            <span class v-if="senders.length === 0">
-              There are no sender clients in this file.
-            </span>
-
-            <v-container grid-list-xl>
-
-              <v-layout row wrap>
-
-                <client-sender
-                  v-for="client in senders"
-                  :key="client.streamId + ':' + client.AccountId"
-                  :client="client"
-                >
-                  {{client}}
-                </client-sender>
-
-              </v-layout>
-
-            </v-container>
 
           </v-flex>
 
@@ -193,17 +131,13 @@
       <v-card>
 
         <v-card-title class="headline primary white--text" primary-title>
-          Ouups. This Speckle Ui is not embedded.
+           Welcome to the future DUI3 🚀
         </v-card-title>
 
         <v-img src="https://robohash.org/speckled" height="210" contain></v-img>
 
         <v-card-text class="mt-5">
-           See, we're looking for this
-          <code>UiBindings</code>
-           object, that should connect this ui to its subsequent model and we can't
-          find it. Don't worry. It's not your fault. If you're confused, reach out
-          below:
+           Just kidding! This is a test :) Please embed me to use any bindings.
         </v-card-text>
 
       </v-card>
@@ -276,3 +210,4 @@ export default {
   color: #000 !important;
 }
 </style>
+
