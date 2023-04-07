@@ -92,7 +92,7 @@
               ></v-img>
 
               <v-card-text class="text-sm-center white--text">
-                <v-btn block class="mt-2" @click.native="showAccountsPopup()">
+                <v-btn block class="mt-2" @click.native="sendStream()">
                   Send Everything Test
                 </v-btn>
 
@@ -158,6 +158,13 @@ export default {
     senders() {
       return this.$store.state.clients.filter((cl) => cl.type === "sender");
     },
+    SpeckleUiBindings() {
+      //NOTE: in revit chrome.webview.hostObjects.UiBindings is not null because it does have webview2
+      if (typeof UiBindings === "undefined" || UiBindings === null) {
+        return chrome.webview.hostObjects.UiBindings;
+      }
+      return UiBindings;
+    },
   },
   data() {
     return {
@@ -171,16 +178,19 @@ export default {
   methods: {
     showDev() {
       console.log("showing dev");
-      UiBindings.showDev();
+      this.SpeckleUiBindings.showDev();
     },
-    showAccountsPopup() {
+    sendStream() {
       console.log("send starting");
-      UiBindings.showAccountsPopup();
+      this.SpeckleUiBindings.sendStream();
     },
   },
   mounted() {
     console.log("app mounted!");
-    if (typeof UiBindings === "undefined" || UiBindings === null) {
+    if (
+      typeof this.SpeckleUiBindings === "undefined" ||
+      this.SpeckleUiBindings === null
+    ) {
       this.showNotEmbeddError = true;
       return;
     }
