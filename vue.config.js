@@ -1,3 +1,4 @@
 module.exports = {
-  publicPath: ""
-}
+  publicPath: "",
+  chainWebpack: (config) => config.optimization.minimize(false),
+};
