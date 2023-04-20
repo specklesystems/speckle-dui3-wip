@@ -160,10 +160,12 @@ export default {
     },
     SpeckleUiBindings() {
       //NOTE: in revit chrome.webview.hostObjects.UiBindings is not null because it does have webview2
-      if (typeof UiBindings === "undefined" || UiBindings === null) {
-        return chrome.webview.hostObjects.UiBindings;
-      }
-      return UiBindings;
+      try {
+        if (window.UiBindings) return window.UiBindings;
+        if (window.chrome.webview.hostObjects.UiBindings)
+          return window.chrome.webview.hostObjects.UiBindings;
+      } catch {}
+      return null;
     },
   },
   data() {
