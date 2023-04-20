@@ -5,17 +5,23 @@
         <NewClientSender
           :is-visible="showEditSender"
           :is-edit="true"
-          @close="showEditSender=false"
+          @close="showEditSender = false"
           :sender-client="client"
         ></NewClientSender>
       </v-dialog>
 
-      <v-toolbar color="primary xxxdarken-1 text-truncate elevation-0" dark height="70">
+      <v-toolbar
+        color="primary xxxdarken-1 text-truncate elevation-0"
+        dark
+        height="70"
+      >
         <v-btn fab small color="white" ripple @click.native="startUpload()">
           <v-icon color="primary">cloud_upload</v-icon>
         </v-btn>
 
-        <v-toolbar-title class="text-truncate font-weight-light ml-3">{{client.name}}</v-toolbar-title>
+        <v-toolbar-title class="text-truncate font-weight-light ml-3">{{
+          client.name
+        }}</v-toolbar-title>
 
         <v-spacer></v-spacer>
 
@@ -30,7 +36,7 @@
         <!-- EDIT -->
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <v-btn small icon @click.native="showEditSender=true" v-on="on">
+            <v-btn small icon @click.native="showEditSender = true" v-on="on">
               <v-icon small>edit</v-icon>
             </v-btn>
           </template>
@@ -53,7 +59,13 @@
             <v-btn
               icon
               small
-              @click.native="startProcess(`${client.account.RestApi.replace('api','#')}streams/${client.streamId}`)"
+              @click.native="
+                startProcess(
+                  `${client.account.RestApi.replace('api', '#')}streams/${
+                    client.streamId
+                  }`
+                )
+              "
               target="_blank"
               v-on="on"
             >
@@ -76,14 +88,14 @@
       <v-card-text class="caption">
         <span>
           <v-icon small>developer_board</v-icon>
-          {{account.ServerName}}
-        </span>&nbsp;
+          {{ account.ServerName }} </span
+        >&nbsp;
         <span class="caption">
           <v-icon small>fingerprint</v-icon>StreamId:
-          <span style="user-select:all;">
-            <b>{{client.streamId}}</b>
-          </span>
-        </span>&nbsp;
+          <span style="user-select: all">
+            <b>{{ client.streamId }}</b>
+          </span> </span
+        >&nbsp;
         <span class="caption">
           <v-icon small>hourglass_full</v-icon>Last update:
           <timeago :datetime="client.updatedAt" :auto-update="60"></timeago>
@@ -97,18 +109,32 @@
         ></v-progress-linear>
 
         <span>
-          <v-icon small>{{client.filter.Icon}}</v-icon>
+          <v-icon small>{{ client.filter.Icon }}</v-icon>
           <span
-            v-if="client.filter.Type==='SpeckleUiBase.ElementsSelectionFilter'"
-          >Objects by {{client.filter.Name}}, {{client.filter.Selection.length}} added.</span>
+            v-if="
+              client.filter.Type === 'SpeckleUiBase.ElementsSelectionFilter'
+            "
+            >Objects by {{ client.filter.Name }},
+            {{ client.filter.Selection.length }} added.</span
+          >
           <span
-            v-else-if="client.filter.Type==='SpeckleUiBase.ListSelectionFilter'"
-          >Objects by {{client.filter.Name}}, {{client.filter.Selection.length}} selected.</span>
+            v-else-if="
+              client.filter.Type === 'SpeckleUiBase.ListSelectionFilter'
+            "
+            >Objects by {{ client.filter.Name }},
+            {{ client.filter.Selection.length }} selected.</span
+          >
           <span
-            v-else-if="client.filter.Type==='SpeckleUiBase.PropertySelectionFilter'"
-          >Objects by {{client.filter.Name}}, where {{client.filter.PropertyName}} {{client.filter.PropertyOperator}} {{client.filter.PropertyValue}}.</span>
-        </span>&nbsp;
-        <span class="caption grey--text">{{client.loadingBlurb}}</span>
+            v-else-if="
+              client.filter.Type === 'SpeckleUiBase.PropertySelectionFilter'
+            "
+            >Objects by {{ client.filter.Name }}, where
+            {{ client.filter.PropertyName }}
+            {{ client.filter.PropertyOperator }}
+            {{ client.filter.PropertyValue }}.</span
+          > </span
+        >&nbsp;
+        <span class="caption grey--text">{{ client.loadingBlurb }}</span>
       </v-card-text>
 
       <v-alert
@@ -118,12 +144,20 @@
         border="left"
         class="mt-15"
         colored-border
-        v-if="client.message && client.message!== ''"
-      >{{client.message}}</v-alert>
+        v-if="client.message && client.message !== ''"
+        >{{ client.message }}</v-alert
+      >
       <v-alert dismissible dense type="warning" v-model="alertError">
         <div row wrap class="d-flex flex-row">
           <span class="caption" v-html="client.errorMsg"></span>
-          <v-btn outlined right x-small class="ml-5" v-if="client.errors" @click="showErrors=true">
+          <v-btn
+            outlined
+            right
+            x-small
+            class="ml-5"
+            v-if="client.errors"
+            @click="showErrors = true"
+          >
             <v-icon small>more_horiz</v-icon>
           </v-btn>
         </div>
@@ -132,10 +166,16 @@
         <v-card>
           <v-list>
             <v-subheader>CONVERSION ERRORS</v-subheader>
-            <v-list-item :two-line="err.Details!=null" v-for="(err, i) in client.errors" :key="i">
+            <v-list-item
+              :two-line="err.Details != null"
+              v-for="(err, i) in client.errors"
+              :key="i"
+            >
               <v-list-item-content>
-                <v-list-item-title>{{err.Message}}</v-list-item-title>
-                <v-list-item-subtitle v-html="err.Details">{{err.Details}}</v-list-item-subtitle>
+                <v-list-item-title>{{ err.Message }}</v-list-item-title>
+                <v-list-item-subtitle v-html="err.Details">{{
+                  err.Details
+                }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -146,7 +186,7 @@
 </template>
 <script>
 import Sockette from "sockette";
-import NewClientSender from './NewClientSender.vue'
+import NewClientSender from "./NewClientSender.vue";
 
 export default {
   name: "SenderClient",
@@ -156,13 +196,13 @@ export default {
   props: {
     client: {
       type: Object,
-      default: null
-    }
+      default: null,
+    },
   },
   computed: {
     account() {
       return this.$store.state.accounts.find(
-        ac => ac.AccountId === this.client.AccountId
+        (ac) => ac.AccountId === this.client.AccountId
       );
     },
     updatedAt() {
@@ -171,14 +211,14 @@ export default {
     alertError: {
       // getter
       get: function () {
-        return this.client.errorMsg != ''
+        return this.client.errorMsg != "";
       },
       // setter
       set: function (newValue) {
-        this.client.errorMsg = ''
-        this.client.errors = []
-      }
-    }
+        this.client.errorMsg = "";
+        this.client.errors = [];
+      },
+    },
   },
   watch: {
     "client.loading"(val, oldVal) {
@@ -188,13 +228,13 @@ export default {
       handler(val, oldVal) {
         console.log(val);
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   data: () => ({
     sendStarted: false,
     showEditSender: false,
-    showErrors: false
+    showErrors: false,
   }),
   methods: {
     startUpload() {
@@ -205,10 +245,7 @@ export default {
       this.client.expired = false;
       UiBindings.pushSender(JSON.stringify(this.client));
     },
-    deleteClient() {
-      this.$store.dispatch("removeReceiverClient", this.client);
-      this.sockette.close();
-    },
+    deleteClient() {},
     broadcastSendEnd() {
       this.sendStarted = false;
       this.sockette.json({
@@ -216,8 +253,8 @@ export default {
         resourceType: "stream",
         resourceId: this.client.streamId,
         args: {
-          eventType: "update-global"
-        }
+          eventType: "update-global",
+        },
       });
     },
     // addSelection() {
@@ -236,7 +273,7 @@ export default {
       this.sockette.json({
         eventName: "join",
         resourceType: "stream",
-        resourceId: this.client.streamId
+        resourceId: this.client.streamId,
       });
     },
     wsMessage(e) {
@@ -254,14 +291,12 @@ export default {
     },
     wsClose(e) {
       console.log(e);
-    }
+    },
   },
   mounted() {
     let wsUrl = this.account.RestApi.replace("http", "ws");
     this.sockette = new Sockette(
-      `${wsUrl}?client_id=${this.client.clientId}&access_token=${
-      this.account.Token
-      }`,
+      `${wsUrl}?client_id=${this.client.clientId}&access_token=${this.account.Token}`,
       {
         timeout: 5e3,
         maxAttempts: 100,
@@ -269,16 +304,16 @@ export default {
         onmessage: this.wsMessage,
         onerror: this.wsError,
         onreconnect: this.wsReconnect,
-        onclose: this.wsClose
+        onclose: this.wsClose,
       }
     );
   },
   beforeDestroy() {
     this.sockette.close();
-  }
+  },
 };
 </script>
-<style scoped lang='scss'>
+<style scoped lang="scss">
 .expired {
   // border-left: 12px solid red;
 }

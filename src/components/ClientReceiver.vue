@@ -2,16 +2,24 @@
   <v-flex xs12>
     <v-card>
       <v-toolbar color="secondary text-truncate elevation-0" dark height="70">
-        <v-btn fab small color="white" :depressed="!client.expired" @click.native="bakeReceiver()">
+        <v-btn
+          fab
+          small
+          color="white"
+          :depressed="!client.expired"
+          @click.native="bakeReceiver()"
+        >
           <v-icon color="secondary">cloud_download</v-icon>
         </v-btn>
-        <v-toolbar-title class="text-truncate font-weight-light ml-3">{{client.name}}</v-toolbar-title>
+        <v-toolbar-title class="text-truncate font-weight-light ml-3">{{
+          client.name
+        }}</v-toolbar-title>
         <v-spacer></v-spacer>
 
         <!-- NOTIFICATION -->
         <v-tooltip bottom v-if="client.expired">
           <template v-slot:activator="{ on }">
-            <v-icon class="mr-2" v-on="on" color="red" small >lens</v-icon>
+            <v-icon class="mr-2" v-on="on" color="red" small>lens</v-icon>
           </template>
           <span>This stream has updates that can be received</span>
         </v-tooltip>
@@ -20,7 +28,9 @@
         <v-tooltip bottom v-if="$store.state.canTogglePreview">
           <template v-slot:activator="{ on }">
             <v-btn small icon @click.native="togglePreview" v-on="on">
-              <v-icon small>{{client.preview ? "visibility" : "visibility_off"}}</v-icon>
+              <v-icon small>{{
+                client.preview ? "visibility" : "visibility_off"
+              }}</v-icon>
             </v-btn>
           </template>
           <span>Toggle Preview</span>
@@ -42,7 +52,13 @@
             <v-btn
               icon
               small
-              @click.native="startProcess(`${client.account.RestApi.replace('api','#')}streams/${client.streamId}`)"
+              @click.native="
+                startProcess(
+                  `${client.account.RestApi.replace('api', '#')}streams/${
+                    client.streamId
+                  }`
+                )
+              "
               target="_blank"
               v-on="on"
             >
@@ -65,14 +81,14 @@
       <v-card-text class="caption">
         <span>
           <v-icon small>developer_board</v-icon>
-          {{account.ServerName}}
-        </span>&nbsp;
+          {{ account.ServerName }} </span
+        >&nbsp;
         <span class="caption">
           <v-icon small>fingerprint</v-icon>StreamId:
-          <span style="user-select:all;">
-            <b>{{client.streamId}}</b>
-          </span>
-        </span>&nbsp;
+          <span style="user-select: all">
+            <b>{{ client.streamId }}</b>
+          </span> </span
+        >&nbsp;
         <span class="caption">
           <v-icon small>hourglass_full</v-icon>Last update:
           <timeago :datetime="client.updatedAt" :auto-update="60"></timeago>
@@ -86,8 +102,11 @@
           color="primary darken-1"
         ></v-progress-linear>
         <br />
-        <span class="caption text--lighten-3">{{client.loadingBlurb}}</span>&nbsp;
-        <span class="caption grey--text">Total objects: {{client.objects.length}}</span>
+        <span class="caption text--lighten-3">{{ client.loadingBlurb }}</span
+        >&nbsp;
+        <span class="caption grey--text"
+          >Total objects: {{ client.objects.length }}</span
+        >
       </v-card-text>
       <!-- <v-card-actions>
           <v-btn color="secondary" :flat="!client.expired" @click.native="bakeReceiver()">
@@ -102,12 +121,20 @@
       <v-alert
         dismissible
         color="grey darken-2"
-        v-if="client.message && client.message!== ''"
-      >{{client.message}}</v-alert>
+        v-if="client.message && client.message !== ''"
+        >{{ client.message }}</v-alert
+      >
       <v-alert dismissible dense type="warning" v-model="alertError">
         <div row wrap class="d-flex flex-row">
           <span class="caption" v-html="client.errorMsg"></span>
-          <v-btn outlined right x-small class="ml-5" v-if="client.errors" @click="showErrors=true">
+          <v-btn
+            outlined
+            right
+            x-small
+            class="ml-5"
+            v-if="client.errors"
+            @click="showErrors = true"
+          >
             <v-icon small>more_horiz</v-icon>
           </v-btn>
         </div>
@@ -116,10 +143,16 @@
         <v-card>
           <v-list>
             <v-subheader>CONVERSION ERRORS</v-subheader>
-            <v-list-item :two-line="err.Details!=null" v-for="(err, i) in client.errors" :key="i">
+            <v-list-item
+              :two-line="err.Details != null"
+              v-for="(err, i) in client.errors"
+              :key="i"
+            >
               <v-list-item-content>
-                <v-list-item-title>{{err.Message}}</v-list-item-title>
-                <v-list-item-subtitle v-html="err.Details">{{err.Details}}</v-list-item-subtitle>
+                <v-list-item-title>{{ err.Message }}</v-list-item-title>
+                <v-list-item-subtitle v-html="err.Details">{{
+                  err.Details
+                }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -136,13 +169,13 @@ export default {
   props: {
     client: {
       type: Object,
-      default: null
-    }
+      default: null,
+    },
   },
   computed: {
     account() {
       return this.$store.state.accounts.find(
-        ac => ac.AccountId === this.client.AccountId
+        (ac) => ac.AccountId === this.client.AccountId
       );
     },
     updatedAt() {
@@ -151,38 +184,35 @@ export default {
     alertError: {
       // getter
       get: function () {
-        return this.client.errorMsg != ''
+        return this.client.errorMsg != "";
       },
       // setter
       set: function (newValue) {
-        this.client.errorMsg = ''
-        this.client.errors = []
-      }
-    }
+        this.client.errorMsg = "";
+        this.client.errors = [];
+      },
+    },
   },
   data() {
     return {
       showErrors: false,
-    }
+    };
   },
   methods: {
     bakeReceiver() {
       this.$store.dispatch("bakeReceiver", this.client);
     },
-    deleteClient() {
-      this.$store.dispatch("removeReceiverClient", this.client);
-      this.sockette.close();
-    },
+    deleteClient() {},
     selectObjects() {
       UiBindings.selectClientObjects(JSON.stringify(this.client));
     },
     togglePreview() {
-      console.log(this.client)
+      console.log(this.client);
       this.$store.commit("SET_CLIENT_DATA", {
         _id: this.client._id,
-        preview: !this.client.preview
-      })
-      UiBindings.clientUpdated(JSON.stringify(this.client))
+        preview: !this.client.preview,
+      });
+      UiBindings.clientUpdated(JSON.stringify(this.client));
     },
     startProcess(process) {
       UiBindings.startProcess(process);
@@ -191,7 +221,7 @@ export default {
       this.sockette.json({
         eventName: "join",
         resourceType: "stream",
-        resourceId: this.client.streamId
+        resourceId: this.client.streamId,
       });
     },
     wsMessage(e) {
@@ -206,13 +236,13 @@ export default {
           case "update-global":
             this.$store.dispatch("updateClient", {
               client: this.client,
-              expire: true
+              expire: true,
             });
             break;
           case "update-meta":
             this.$store.dispatch("updateClient", {
               client: this.client,
-              expire: false
+              expire: false,
             });
             break;
         }
@@ -231,16 +261,14 @@ export default {
     },
     wsClose(e) {
       console.log(e);
-    }
+    },
   },
   mounted() {
     console.log("client mounted!");
     console.log(this.client);
     let wsUrl = this.account.RestApi.replace("http", "ws");
     this.sockette = new Sockette(
-      `${wsUrl}?client_id=${this.client.clientId}&access_token=${
-      this.account.Token
-      }`,
+      `${wsUrl}?client_id=${this.client.clientId}&access_token=${this.account.Token}`,
       {
         timeout: 5e3,
         maxAttempts: 100,
@@ -248,15 +276,14 @@ export default {
         onmessage: this.wsMessage,
         onerror: this.wsError,
         onreconnect: this.wsReconnect,
-        onclose: this.wsClose
+        onclose: this.wsClose,
       }
     );
   },
   beforeDestroy() {
     console.log("bye bye...");
     this.sockette.close();
-  }
+  },
 };
 </script>
-<style scoped lang='scss'>
-</style>
+<style scoped lang="scss"></style>

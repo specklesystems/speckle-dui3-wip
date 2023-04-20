@@ -221,20 +221,6 @@ export default new Vuex.Store({
         return resolve();
       }),
 
-    removeReceiverClient: (context, client) =>
-      new Promise(async (resolve, reject) => {
-        await UiBindings.removeClient(JSON.stringify(client));
-        try {
-          await Axios.delete(
-            `${client.account.RestApi}/clients/${client.clientId}`,
-            { headers: { Authorization: client.account.Token } }
-          );
-          // TODO: mark stream as deleted too!
-        } catch {}
-        context.commit("REMOVE_CLIENT", client._id);
-        console.log("hello refresh - this is important");
-      }),
-
     updateClient: (context, { client, expire }) =>
       new Promise(async (resolve, reject) => {
         // note: real update, with all the heavy object lifting, happens in .NET
