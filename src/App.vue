@@ -161,10 +161,17 @@ export default {
     SpeckleUiBindings() {
       //NOTE: in revit chrome.webview.hostObjects.UiBindings is not null because it does have webview2
       try {
-        if (window.UiBindings) return window.UiBindings;
-        if (window.chrome.webview.hostObjects.UiBindings)
+        if (window.UiBindings) {
+          console.log("using cef");
+          return window.UiBindings;
+        }
+        if (window.chrome.webview.hostObjects.UiBindings) {
+          console.log("using webview");
           return window.chrome.webview.hostObjects.UiBindings;
-      } catch {}
+        }
+      } catch (e) {
+        console.error(e);
+      }
       return null;
     },
   },
@@ -189,6 +196,8 @@ export default {
   },
   mounted() {
     console.log("app mounted!");
+    console.log("bindings:");
+    console.log(this.SpeckleUiBindings);
     if (
       typeof this.SpeckleUiBindings === "undefined" ||
       this.SpeckleUiBindings === null
