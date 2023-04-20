@@ -2,83 +2,13 @@
   <v-app>
     <v-app-bar app v-if="!showNotEmbeddError">
       <v-toolbar-title class="headline text-uppercase mx-0 pa-0">
-        <span @click="showDev()">WELCOME TO DUI3</span>
+        <span>WELCOME TO DUI3</span>
 
         <span class="font-weight-light">{{ $store.state.hostAppName }}</span>
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
-
-      <v-btn
-        color="secondary"
-        v-show="$store.state.accounts.length > 0"
-        dark
-        absolute
-        bottom
-        right
-        fab
-        :ripple="false"
-        @click.native="showAddNewReceiver = true"
-        style="margin-right: 120px"
-      >
-        <v-icon>cloud_download</v-icon>
-      </v-btn>
-
-      <!-- <v-btn
-        color="primary"
-        v-show="$store.state.accounts.length > 0"
-        absolute
-        bottom
-        right
-        fab
-        :ripple="false"
-        @click.native="showAddNewSender = true"
-        style="margin-right:60px"
-      >
-
-        <v-icon>cloud_upload</v-icon>
-
-      </v-btn>
-
-      <v-btn
-        @click="showAccountsPopup()"
-        color="grey"
-        dark
-        absolute
-        bottom
-        right
-        fab
-        :ripple="false"
-      >
-
-        <v-icon>account_circle</v-icon>
-
-      </v-btn> -->
     </v-app-bar>
-
-    <v-dialog
-      v-model="showAddNewReceiver"
-      scrollable
-      xxxfullscreen
-      v-if="!showNotEmbeddError"
-    >
-      <NewClient
-        :is-visible="showAddNewReceiver"
-        @close="showAddNewReceiver = false"
-      ></NewClient>
-    </v-dialog>
-
-    <v-dialog
-      v-model="showAddNewSender"
-      scrollable
-      xxxfullscreen
-      v-if="!showNotEmbeddError"
-    >
-      <NewClientSender
-        :is-visible="showAddNewSender"
-        @close="showAddNewSender = false"
-      ></NewClientSender>
-    </v-dialog>
 
     <v-content v-if="!showNotEmbeddError">
       <v-container fill-height pa-0>
